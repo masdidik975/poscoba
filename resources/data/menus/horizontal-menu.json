@@ -1,0 +1,111 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboard",
+      "i18n": "Dashboard",
+      "slug": "dashboard",
+      "icon": "desktop",
+      "dropdown": "1"
+    },
+    {
+      "url": "#",
+      "name": "Masters",
+      "i18n": "Starter kit",
+      "slug": "",
+      "icon": "unlink",
+      "submenu": [
+        {
+          "url": "/items/show",
+          "name": "Master Items",
+          "i18n": "1 column",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "1-column"
+        },
+        {
+          "url": "/kategori",
+          "name": "Master Kategori",
+          "i18n": "2 columns",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "2-columns"
+        },
+        
+        {
+          "url": "/supplier",
+          "name": "Master Suppliers ",
+          "i18n": "2 columns",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "2-columns"
+        },
+        {
+          "url": "/customer",
+          "name": "Master Customers ",
+          "i18n": "Fixed navbar",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "fixed-navbar"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Transaksi",
+      "i18n": "Starter kit",
+      "slug": "",
+      "icon": "unlink",
+      "submenu": [
+        {
+          "url": "/receive/show",
+          "name": "Transaksi Pembelian",
+          "i18n": "1 column",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "1-column"
+        },
+        {
+          "url": "/sales/show",
+          "name": "Transaksi Penjualan",
+          "i18n": "2 columns",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "2-columns"
+        },
+        {
+          "url": "/opname",
+          "name": "Stok Opname",
+          "i18n": "Fixed navbar",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "fixed-navbar"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Reports",
+      "i18n": "Starter kit",
+      "slug": "",
+      "icon": "unlink",
+      "submenu": [
+        {
+          "url": "/sales-report",
+          "name": "Report Penjualan",
+          "i18n": "1 column",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "1-column"
+        },
+        {
+          "url": "/receive-report",
+          "name": "Report Pembelian",
+          "i18n": "2 columns",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "2-columns"
+        }
+      ]
+    },
+    {
+      "url": "/setting",
+      "name": "Setting Toko",
+      "i18n": "Dashboard",
+      "slug": "dashboard",
+      "icon": "gear",
+      "dropdown": "1"
+    }
+  ]
+}
