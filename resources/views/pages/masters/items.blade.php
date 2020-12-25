@@ -62,18 +62,7 @@
                                   </div>    
                                 </div>
                               </div>
-                            <div class="col-12">
-                              <div class="form-group">
-                                <label for="contact-info-icon">Harga Jual</label>
-                                <div class="position-relative has-icon-left">
-                                  <input type="number" id="contact-info-icon" class="form-control" name="harga"
-                                    placeholder="Harga jual">
-                                  <div class="form-control-position">
-                                    <i class="bx bx-dollar-circle"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            
                             
                             <div class="col-12">
                               <div class="form-group">
@@ -167,18 +156,7 @@
                                 </div>    
                               </div>
                             </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <label for="contact-info-icon">Harga Jual</label>
-                              <div class="position-relative has-icon-left">
-                                <input type="number" id="contact-info-icon" class="form-control" name="harga"
-                                  placeholder="Harga jual">
-                                <div class="form-control-position">
-                                  <i class="bx bx-dollar-circle"></i>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          
                           
                           <div class="col-12">
                             <div class="form-group">
@@ -344,7 +322,7 @@
         $('#updatemodal input[name="barang"]').val(barang)
         $('#updatemodal select[name="kategori"]').val(kategori);
         $('#updatemodal select[name="satuan"]').val(satuan);
-        $('#updatemodal input[name="harga"]').val(harga)
+        
         $('#updatemodal').modal('show');
     })
 

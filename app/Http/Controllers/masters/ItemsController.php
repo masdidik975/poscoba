@@ -46,7 +46,6 @@ class ItemsController extends Controller
         $req->validate([
             'barang' => 'bail|required|max:50',
             'satuan' => 'required',
-            'harga' => 'required',
             'kategori' => 'required',
         ]);
         
@@ -58,7 +57,7 @@ class ItemsController extends Controller
             $im->nama_items     = $req->barang;
             $im->kategori_items = $req->kategori;
             $im->satuan_items   = $req->satuan;
-            $im->harga_items    = $req->harga;
+
 
             $im->save();
             $notif =["success"=>"Data Inserted"];
@@ -80,7 +79,7 @@ class ItemsController extends Controller
             $im->nama_items     = $req->barang;
             $im->kategori_items = $req->kategori;
             $im->satuan_items   = $req->satuan;
-            $im->harga_items    = $req->harga;
+            
 
             $im->save();
             $notif =["success"=>"Data Updated"];
@@ -129,10 +128,10 @@ class ItemsController extends Controller
 
     public function pagePrice($id)
     {
-        $item = ItemsModels::find($id)->with(['receive_items'])->first();
-        // $histori = ReceiveDetailModels::where('item_id',$id)->get();
+        $cart = ItemsModels::find($id)->with(['receive_items','item_kategori','item_satuan'])->first();
+        // dd($cart);
 
-        dd($item);
+        return view('pages.transaksi.harga_baru',compact('cart'));
 
     }
 }

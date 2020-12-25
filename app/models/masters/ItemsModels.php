@@ -33,6 +33,11 @@ class ItemsModels extends Model
         return $this->hasMany('App\models\transaksi\IssuedDetailModels','item_id','id_items');
     }
 
+    public function harga_items()
+    {
+        return $this->hasMany('App\models\masters\HargaModels','item_id','id_items');
+    }
+
     
 
 
