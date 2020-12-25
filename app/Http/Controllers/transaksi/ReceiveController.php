@@ -74,4 +74,13 @@ class ReceiveController extends Controller
         return redirect()->back()->with($notif);
         
     }
+
+    public function detailReceive($id)
+    {
+        $recDetail  = ReceiveDetailModels::find($id)->first();
+        $rec        = ReceiveModels::find($id)->first();
+        // dd([$recDetail, $rec]);
+
+        return view('pages.report.app-receive',compact('recDetail','rec') );
+    }
 }

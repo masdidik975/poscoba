@@ -39,6 +39,7 @@ Route::post('/update-harga-items', 'masters\ItemsController@updatePrice');
 
 
 
+
 //master kategori
 Route::get('/kategori', 'masters\mastersController@index');
 Route::post('/save-kategori', 'masters\mastersController@saveKategori');
@@ -67,6 +68,7 @@ Route::get('/hapus-customer/{id}', 'masters\CustomerController@hapusCustomer');
 Route::get('/receive/{modul}', 'transaksi\ReceiveController@index');
 Route::get('/buat-pembelian/{modul}', 'transaksi\ReceiveController@buat_pembelian');
 Route::get('/delete-receive/{id}', 'transaksi\ReceiveController@deleteReceive');
+Route::get('/detail-receive/{id}', 'transaksi\ReceiveController@detailReceive');
 // Route::post('/save-customer', 'masters\CustomerController@saveCustomer');
 // Route::post('/update-customer', 'masters\CustomerController@updateCustomer');
 // Route::get('/hapus-customer/{id}', 'masters\CustomerController@hapusCustomer');
