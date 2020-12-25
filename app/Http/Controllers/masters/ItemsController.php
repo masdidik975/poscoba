@@ -134,4 +134,25 @@ class ItemsController extends Controller
         return view('pages.transaksi.harga_baru',compact('cart'));
 
     }
+
+    public function updatePrice(Request $req)
+    {
+        $req->validate([
+            
+            'harga' => 'required|numeric',
+        ]);
+        
+        $notif=[];
+        try {
+            
+            $im = ItemsModels::find($req->kode);
+            $im->harga_items   = $req->harga;
+            $im->save();
+            $notif =["success"=>"Item Harga Berhasil Di perbarui"];
+        } catch (\Throwable $th) {
+            $notif =["error"=>$th->getMessage()];
+        }
+        return redirect('/items/show')->with($notif);
+        
+    }
 }

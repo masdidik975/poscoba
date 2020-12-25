@@ -35,6 +35,7 @@ Route::post('/update-items', 'masters\ItemsController@updateItems');
 Route::get('/hapus-items/{id}', 'masters\ItemsController@hapusItems');
 Route::post('/find_master_barang', 'masters\ItemsController@cariItems');
 Route::get('/price-items/{id}', 'masters\ItemsController@pagePrice');
+Route::post('/update-harga-items', 'masters\ItemsController@updatePrice');
 
 
 
