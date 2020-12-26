@@ -80,11 +80,18 @@ class cartController extends Controller
                     
                 break;
             case 'kasir':
-            
-                $insert = ["uid"=>Auth::id(),"inv_id"=>3, "item_id"=>$req->kode,"nama"=>$req->item,"jumlah"=>$req->jumlah ? $req->jumlah : 0 ,"harga"=>$req->harga ,"subtotal"=>$req->harga  * $req->jumlah ,"status"=>"ONCART"];
-                cartModels::updateOrCreate($insert,$insert);
+                
+                $item = ItemsModels::whereRaw("CONCAT(id_items,kategori_items,satuan_items) = '".$req->barcode."'")->first();
+                $cart = cartModels::where('uid',Auth::id())->where('inv_id','3')->where('item_id',$item->id_items)->where('status','ONCART')->first();
+                $update = [
+                    "item_id"=>$item->id_items,"nama"=>$item->nama_items,"jumlah"=>( $cart!= null ? $cart->jumlah : 0) + 1 ,"harga"=>$item->harga_items, "subtotal"=>(($cart != null ? $cart->jumlah : 0 ) + 1 ) * $item->harga_items
+                    ];
+                $where = [
+                    "uid"=>Auth::id(),"inv_id"=>3, "item_id"=>$item->id_items, "status"=>"ONCART"
+                    ];    
+                cartModels::updateOrCreate($where,$update);
                 $notif =["success"=>"Item berhasil di tambahkan"];
-
+                // dd($cart== null);
                 return redirect()->back()->with($notif);
                 break;    
 

@@ -193,14 +193,14 @@
                                     $grant += $item->subtotal;
                                 @endphp
                                 <tr>
-                                  <td>{{$item->itemCart->id_items}}</td>  
-                                  <td>{{$item->itemCart->nama_items}}</td>  
+                                  <td>{{@$item->itemCart->id_items}}</td>  
+                                  <td>{{@$item->itemCart->nama_items}}</td>  
                                   {{-- <td>{{$item->itemCart->item_kategori->nama_kategori}}</td> --}}
-                                  <td>{{$item->itemCart->item_satuan->nama_satuan}}</td>
-                                  <td>{{$item->jumlah}}</td>  
-                                  <td>{{number_format($item->harga,2)}}</td>  
-                                  <td class="text-right">{{number_format($item->subtotal,2)}}</td>  
-                                  <td><a href="{{url('delete-cart/'.$item->cart_id)}}" type="button" class="btn btn-xs btn-danger glow"><i class="bx bx-trash"></i></a></td>  
+                                  <td>{{@$item->itemCart->item_satuan->nama_satuan}}</td>
+                                  <td>{{@$item->jumlah}}</td>  
+                                  <td>{{number_format(@$item->harga,2)}}</td>  
+                                  <td class="text-right">{{number_format(@$item->subtotal,2)}}</td>  
+                                  <td><a href="{{url('delete-cart/'.@$item->cart_id)}}" type="button" class="btn btn-xs btn-danger glow"><i class="bx bx-trash"></i></a></td>  
                                 </tr>                                  
                               @endforeach
                             </tbody>
@@ -256,13 +256,14 @@
                   @csrf
                     <div class="form-body">
                       <div class="row">
+
                         <div class="col-12">
                           <div class="form-group">
-                            <label for="first-name-icon">Barang</label>
+                            <label for="first-name-icon">Barcode</label>
                             <div class="position-relative has-icon-left">
-                              <input type="text" class="form-control" name="item">
+                              <input type="text" class="form-control" name="barcode" >
                               <div class="form-control-position">
-                                <i class="bx bx-layer"></i>
+                                <i class="bx bx-barcode"></i>
                               </div>
                               <div id="itemList"></div>
                           
@@ -270,7 +271,21 @@
                           </div>
                         </div>
 
-                        <div class="col-12">
+                        {{-- <div class="col-12">
+                          <div class="form-group">
+                            <label for="first-name-icon">Barang</label>
+                            <div class="position-relative has-icon-left">
+                              <input type="text" class="form-control" name="item" readonly>
+                              <div class="form-control-position">
+                                <i class="bx bx-layer"></i>
+                              </div>
+                              <div id="itemList"></div>
+                          
+                            </div>
+                          </div>
+                        </div> --}}
+
+                        {{-- <div class="col-12">
                           <div class="form-group">
                             <label for="first-name-icon">Kode</label>
                             <div class="position-relative has-icon-left">
@@ -304,9 +319,9 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                           <div class="form-group">
                             <label for="first-name-icon">Jumlah</label>
                             <div class="position-relative has-icon-left">
@@ -316,9 +331,9 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                           <div class="form-group">
                             <label for="first-name-icon">Stok</label>
                             <div class="position-relative has-icon-left">
@@ -340,10 +355,10 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-12">
-                          <button type="submit" class="btn btn-success btn-block glow mr-1 mb-1 btn-tambahkan">Tambahkan</button>
+                          <button type="submit" class="btn btn-success btn-block glow mr-1 mb-1 btn-tambahkan hidden">Tambahkan</button>
                         </div>
                         
 
@@ -382,7 +397,7 @@
 <script>
   $(document).ready(function(){
     var printer = new Recta('{{@$tokodata[0][0]->toko_key}}', '1811')
-
+    $('input[name="barcode"]').focus();
     @if(count($errors) > 0)
         @foreach($errors->all() as $error)
             toastr.error("{{ $error }}");
