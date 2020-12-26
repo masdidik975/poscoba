@@ -86,6 +86,7 @@ Route::get('/delete-cart/{modul}', 'transaksi\cartController@deleteCart');
 Route::get('/sales/{modul}', 'transaksi\IssuedController@index');
 Route::get('/buat-sales/{modul}', 'transaksi\IssuedController@buat_sales');
 Route::get('/delete-sales/{id}', 'transaksi\IssuedController@deleteSales');
+Route::get('/detail-issued/{id}', 'transaksi\IssuedController@detailIssued');
 
 //transaksi opname
 Route::get('/opname', 'transaksi\OpnameController@index');

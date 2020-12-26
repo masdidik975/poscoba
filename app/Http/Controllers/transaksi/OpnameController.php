@@ -14,6 +14,7 @@ use App\models\transaksi\ReceiveModels;
 use App\models\transaksi\ReceiveDetailModels;
 use App\models\transaksi\IssuedModels;
 use App\models\transaksi\IssuedDetailModels;
+use Illuminate\Support\Arr;
 
 class OpnameController extends Controller
 {
@@ -27,9 +28,9 @@ class OpnameController extends Controller
         $m = date('Y-m');
         
         $opname = OpnameModels::whereRaw("date_format(created_at, '%Y-%m') ='".$m."'")->with(['detail_opname','user_opname'])->get();
-        return view('pages.transaksi.opname', compact('opname'));
+        // return view('pages.transaksi.opname', compact('opname'));
 
-        // dd($opname);
+        dd($opname);
     }
 
     public function buat_opname($modul)
@@ -56,14 +57,14 @@ class OpnameController extends Controller
         $notif=[];
         try {
 
-            if($hapus['OUT']){
+            if(Arr::exists($hapus, 'OUT') == true){
                 $red = IssuedDetailModels::find($hapus['OUT']);
                 $red->delete();
                 $rec = IssuedModels::find($hapus['OUT']);
                 $rec->delete();
             }
     
-            if($hapus['IN']){
+            if(Arr::exists($hapus, 'IN') == true){
                 $red = ReceiveDetailModels::find($hapus['IN']);
                 $red->delete();
                 $rec = ReceiveModels::find($hapus['IN']);
@@ -80,6 +81,8 @@ class OpnameController extends Controller
             $notif =["error"=>$th->getMessage()];
         }
         return redirect()->back()->with($notif);
+
+        // dd(Arr::exists($hapus, 'IN'));
         
     }
 }

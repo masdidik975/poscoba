@@ -128,7 +128,7 @@ class ItemsController extends Controller
 
     public function pagePrice($id)
     {
-        $cart = ItemsModels::find($id)->with(['receive_items','item_kategori','item_satuan'])->first();
+        $cart = ItemsModels::where('id_items',$id)->with(['receive_items','item_kategori','item_satuan'])->first();
         // dd($cart);
 
         return view('pages.transaksi.harga_baru',compact('cart'));

@@ -183,7 +183,9 @@
                                             <td>{{$item->jenis_issued->nama_jenis}}</td>
                                             <td>{{number_format($gt[$loop->iteration - 1], 2)}}</td>
                                             
-                                            <td><a href="{{url('delete-sales/'.$item->id_issued)}}" type="button" class="btn btn-icon rounded-circle btn-danger mr-1 mb-1" ><i
+                                            <td><a href="{{url('detail-issued/'.$item->id_issued)}}" type="button" class="btn btn-icon rounded-circle btn-info mr-1 mb-1" ><i
+                                                class="bx 
+                                                bx-file"></i></a><a href="{{url('delete-sales/'.$item->id_issued)}}" type="button" class="btn btn-icon rounded-circle btn-danger mr-1 mb-1" ><i
                                                     class="bx bx-trash"></i></a></td>
                                         </tr>
                                     @endforeach

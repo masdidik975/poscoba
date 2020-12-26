@@ -36,18 +36,18 @@
             <!-- header section -->
             <div class="row">
               <div class="col-xl-4 col-md-12">
-                <span class="invoice-number mr-50">Pembelian#</span>
-                <span>{{$rec->id_receive.$rec->supplier_id.$rec->jenis_id}}</span>
+                <span class="invoice-number mr-50">Invoice#</span>
+                <span>{{$ih->id_issued.$ih->customer_id.$ih->jenis_id}}</span>
               </div>
               <div class="col-xl-8 col-md-12">
                 <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
                   <div class="mr-3">
-                    <small class="text-muted">Tanggal Pembelian:</small>
-                    <span>{{$rec->tanggal}}</span>
+                    <small class="text-muted">Tanggal Penjualan:</small>
+                    <span>{{$ih->tanggal_issued}}</span>
                   </div>
                   <div>
                     <small class="text-muted">Jam:</small>
-                    <span>{{$rec->jam}}</span>
+                    <span>{{$ih->jam_issued}}</span>
                   </div>
                 </div>
               </div>
@@ -55,8 +55,8 @@
             <!-- logo and title -->
             <div class="row my-3">
               <div class="col-6">
-                <h4 class="text-primary">Pembelian</h4>
-                <span>Receive Toko</span>
+                <h4 class="text-primary">Invoice</h4>
+                <span>{{$ih->jenis_issued->nama_jenis}}</span>
               </div>
               <div class="col-6 d-flex justify-content-end">
                 {{-- <img src="{{asset('images/pages/pixinvent-logo.png')}}" alt="logo" height="46" width="164"> --}}
@@ -66,31 +66,32 @@
             <!-- invoice address and contact -->
             <div class="row invoice-info">
               <div class="col-6 mt-1">
-                <h6 class="invoice-from">Tagihan Dari</h6>
-                <div class="mb-1">
-                  <span>{{$rec->supplier_receive->nama_supplier}}</span>
-                </div>
-                <div class="mb-1">
-                  <span>{{$rec->supplier_receive->alamat_supplier}}</span>
-                </div>
-                <div class="mb-1">
-                  <span>{{$rec->supplier_receive->email_supplier}}</span>
-                </div>
-                <div class="mb-1">
-                  <span>{{$rec->supplier_receive->telfon_supplier}}</span>
-                </div>
-              </div>
-              <div class="col-6 mt-1">
-                <h6 class="invoice-to">Tagihan Untuk</h6>
+                <h6 class="invoice-from">Toko</h6>
                 <div class="mb-1">
                   <span>{{@$tokodata[0][0]->toko_nama}}</span>
                 </div>
                 <div class="mb-1">
                   <span>{{@$tokodata[0][0]->toko_alamat}}</span>
                 </div>
-                
                 <div class="mb-1">
                   <span>{{@$tokodata[0][0]->toko_telp}}</span>
+                </div>
+                
+              </div>
+              <div class="col-6 mt-1">
+                <h6 class="invoice-to">Customer</h6>
+                <div class="mb-1">
+                  <span>{{@$ih->customer->nama_customer}}</span>
+                </div>
+                <div class="mb-1">
+                  <span>{{@$ih->customer->alamat}}</span>
+                </div>
+                <div class="mb-1">
+                  <span>{{@$ih->customer->email}}</span>
+                </div>
+                
+                <div class="mb-1">
+                  <span>{{@$ih->customer->telfon}}</span>
                 </div>
               </div>
             </div>
@@ -103,7 +104,9 @@
                 <tr class="border-0">
                   <th scope="col">Kode</th>
                   <th scope="col">Nama Barang</th>
-                  <th scope="col">Harga</th>
+                  <th scope="col">Satuan</th>
+                  <th scope="col">Kategori</th>
+                  <th scope="col">Harga Jual</th>
                   <th scope="col">Jumlah</th>
                   <th scope="col" class="text-right">Subtotal</th>
                 </tr>
@@ -112,16 +115,18 @@
                 @php
                     $grand = 0;
                 @endphp
-                @foreach ($recDetail as $item)
+                @foreach ($idet as $item)
                     @php
-                        $grand += $item->receive_harga * @$item->receive_qty;
+                        $grand += $item->issued_qty * @$item->issued_harga;
                     @endphp
                     <tr>
-                      <td>{{@$item->item_receive->id_items.@$item->item_receive->kategori_items.@$item->item_receive->satuan_items}}</td>
-                      <td>{{@$item->item_receive->nama_items}}</td>
-                      <td>{{number_format(@$item->receive_harga,2)}}</td>
-                      <td>{{@$item->receive_qty}}</td>
-                      <td class="text-right">{{number_format((@$item->receive_harga * @$item->receive_qty),2)}}</td>
+                      <td>{{@$item->detail_item->id_items.@$item->detail_item->kategori_items.@$item->detail_item->satuan_items}}</td>
+                      <td>{{@$item->detail_item->nama_items}}</td>
+                      <td>{{@$item->detail_item->item_satuan->nama_satuan}}</td>
+                      <td>{{@$item->detail_item->item_kategori->nama_kategori}}</td>
+                      <td>{{number_format(@$item->issued_harga,2)}}</td>
+                      <td>{{@$item->issued_qty}}</td>
+                      <td class="text-right">{{number_format((@$item->issued_harga * @$item->issued_qty),2)}}</td>
                     </tr>
                 @endforeach
               </tbody>

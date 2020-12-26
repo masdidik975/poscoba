@@ -144,9 +144,14 @@ class cartController extends Controller
                 try {
                     $opname = new OpnameModels;
                     $opname->tanggal_opname= date('Y-m-d');
+                    $opname->jam_opname= Carbon::now('Asia/Jakarta');
                     $opname->user_opname = Auth::id();
                     $opname->save();
                     
+                    $in_issued=[];
+                    $in_receive=[];
+                    $op=[];
+                    $or=[];
                     $stok =[];
                     foreach ($im as $row) {
                         $st = $row->receive_items->sum('receive_qty');
@@ -230,6 +235,8 @@ class cartController extends Controller
                     $notif =["success"=>"Data Berhasil Di Sesuaikan"];
                 } catch (\Throwable $th) {
                     $notif =["error"=>$th->getMessage()];
+
+                    // return $th;
                 }
 
 

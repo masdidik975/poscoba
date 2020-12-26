@@ -78,4 +78,15 @@ class IssuedController extends Controller
         return redirect()->back()->with($notif);
         
     }
+
+    public function detailIssued($id)
+    {
+        $idet     = IssuedDetailModels::where('issued_id',$id)->with(['detail_item'])->get();
+        $ih     = IssuedModels::where('id_issued',$id)->with(['customer','jenis_issued'])->first();
+
+        // dd([$idet,$ih]);
+        // dd($id);
+
+        return view('pages.report.app-issued',compact('idet','ih') );
+    }
 }

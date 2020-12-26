@@ -288,7 +288,7 @@
 {{-- page scripts --}}
 @section('page-scripts')
 <script src="{{asset('js/scripts/datatables/datatable.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.hotkeys@0.1.0/jquery.hotkeys.js"></script>
+<script src="{{asset('js/scripts/hotkeys.js')}}"></script>
 <script>
   $(document).ready(function(){
 

@@ -77,8 +77,8 @@ class ReceiveController extends Controller
 
     public function detailReceive($id)
     {
-        $recDetail  = ReceiveDetailModels::find($id)->first();
-        $rec        = ReceiveModels::find($id)->first();
+        $rec        = ReceiveModels::where('id_receive',$id)->with(['supplier_receive'])->first();
+        $recDetail  = ReceiveDetailModels::where('receive_id',$id)->with(['item_receive'])->get();
         // dd([$recDetail, $rec]);
 
         return view('pages.report.app-receive',compact('recDetail','rec') );
