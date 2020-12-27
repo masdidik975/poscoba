@@ -163,7 +163,7 @@
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->tanggal_opname}}</td>
-                                            <td>{{$item->jam_opname}}</td>
+                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->jam_opname)->format('H:i:s')}}</td>
                                             <td>{{@$item->user_opname->name}}</td>
                                             <td><a href="{{url('detail-opname/'.$item->id_opname)}}" type="button" class="btn btn-icon rounded-circle btn-info mr-1 mb-1" ><i
                                               class="bx 

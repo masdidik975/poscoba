@@ -47,7 +47,7 @@
                   </div>
                   <div>
                     <small class="text-muted">Jam:</small>
-                    <span>{{$opname->jam_opname}}</span>
+                    <span>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $opname->jam_opname)->format('H:i:s')}}</span>
                   </div>
                 </div>
               </div>
