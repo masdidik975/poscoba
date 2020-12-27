@@ -13,6 +13,9 @@
 @endsection
 
 @section('content')
+@php
+    $grant=0;
+@endphp
 <div class="row">
     <div class="col-12">
         
@@ -21,10 +24,10 @@
             aria-labelledby="myModalLabel140" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
-                <form class="form form-vertical" method="POST" action="#">  
+                <form class="form form-vertical" method="POST" action="{{url('update-cart/kasir')}}">  
                 @csrf 
                 <div class="modal-header bg-warning">
-                    <h5 class="modal-title white" id="myModalLabel140">Tambah Master Kategori</h5>
+                    <h5 class="modal-title white" id="myModalLabel140">Update Quantity</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="bx bx-x"></i>
                     </button>
@@ -35,9 +38,9 @@
                           <div class="row">
                             <div class="col-12">
                               <div class="form-group">
-                                <label for="first-name-icon">Nama Kategori</label>
+                                <label for="first-name-icon"></label>
                                 <div class="position-relative has-icon-left">
-                                  <input type="text" id="first-name-icon" class="form-control" name="kategori"
+                                  <input type="text" id="first-name-icon" class="form-control" name="kodecart"
                                     placeholder="Nama Barang">
                                   <div class="form-control-position">
                                     <i class="bx bx-layer"></i>
@@ -46,6 +49,18 @@
                               </div>
                             </div>
                             
+                            <div class="col-12">
+                              <div class="form-group">
+                                <label for="first-name-icon">Jumlah</label>
+                                <div class="position-relative has-icon-left">
+                                  <input type="text" id="first-name-icon" class="form-control" name="jmlcart"
+                                    placeholder="Nama Barang">
+                                  <div class="form-control-position">
+                                    <i class="bx bx-layer"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                             
                           </div>
                         </div>
@@ -57,9 +72,9 @@
                     <span class="d-none d-sm-block">Close</span>
                     </button>
 
-                    <button type="submit" class="btn btn-warning ml-1" >
+                    <button type="submit" class="btn btn-warning ml-1 btn-updatecart" >
                     <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
+                    <span class="d-none d-sm-block">Update</span>
                     </button>2
                 </div>
                 </form>
@@ -110,7 +125,7 @@
                               <label for="first-name-icon">Nominal Bayar</label>
                               <div class="position-relative has-icon-left">
                                 <input type="text" id="first-name-icon" class="form-control" name="bbayar" 
-                                  >
+                                >
                                 <div class="form-control-position">
                                   <i class="bx bx-dollar"></i>
                                 </div>
@@ -163,9 +178,9 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <h4 class="card-title">Kasir</h4>
                   <div class="d-flex">
-                    
-                     <button type="button" class="btn btn-sm btn-success glow mr-1 btn-bayar">(f2) Bayar</button>
-                    <a href="{{url('clear-cart/kasir')}}" type="button" class="btn btn-sm btn-danger glow btn-clear">(f1) Clear all</a>
+                                        
+                     <button type="button" class="btn btn-sm btn-success glow mr-1 btn-bayar">Bayar</button>
+                    <a href="{{url('clear-cart/kasir')}}" type="button" class="btn btn-sm btn-danger glow btn-clear">Clear all</a>
                   </div>
                 </div>
                 <div class="card-content">
@@ -185,9 +200,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              @php
-                                  $grant=0;
-                              @endphp
+                              
                               @foreach ($cart as $item)
                                 @php
                                     $grant += $item->subtotal;
@@ -418,106 +431,52 @@
         "searching":false
     });
 
-    $(document).on('keyup','input[name="item"]',function(){
-      var param = $(this).val();
-      if(param != ""){
-        $.ajax({
-          url:"{{ url('find_master_barang') }}",
-          method:"POST",
-          data:{
-            'param':param,
-            '_token': "{{ csrf_token() }}"
-            },
-          success:function(data){
-           $('div#itemList').fadeIn();  
-                    $('div#itemList').html(data);
-          }
-         });
-    
-      }
+    $('.buytab tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            buytab.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        var kode = $(this).find('td:eq(0)').html();
+        var jml = $(this).find('td:eq(3)').html();
+        
+        
+        $('#warning').modal('show');
+
+        $('#warning input[name="kodecart"]').val(kode);
+        $('#warning input[name="jmlcart"]').val(jml);
+
+    } );
+
+    $(document).on('shown.bs.modal','#updatemodal',function(){
+      $('#updatemodal input[name="bbayar"]').focus();
     })
 
-    $(document).on('click', 'li.dd', function(){  
-        $('input[name="item"]').val($(this).text());  
-        var satuan = $(this).data('satuan')
-        var kategori = $(this).data('kategori')
-        var kode = $(this).data('kode')
-        var harga = $(this).data('harga')
-        var stok = $(this).data('stok')
-
-        $('input[name="satuan"]').val(satuan);  
-        $('input[name="kategori"]').val(kategori);  
-        $('input[name="kode"]').val(kode);
-        $('input[name="harga"]').val(harga);    
-        $('input[name="stok"]').val(stok);    
-        $('div#itemList').fadeOut();  
-
-        console.log($(this).text())
-    });   
-
-
-    $(document).on('keyup','input[name="jumlah"]',function(){
-      var param = ($(this).val() == "")? 0 : $(this).val() ;
-      var stok  = $('input[name="stok"]').val();
-      var sisa =stok - param; 
-      if(sisa < 0){
-        toastr.error("STOK HABIS");
-        $('.btn-tambahkan').addClass('hidden');
-      }else{
-        $('.btn-tambahkan').removeClass('hidden');
-      }
-      
-      // alert(sisa)
-    })
-
-    $(document).on('click','button.save-cart',function(){
-          var customer  = $('select[name="customer"]').val();
-              
-
-          // if((stok - jumlah) > 0 ){
-          //   $.ajax({
-          //     url:"{{ url('/save-cart/issued-save') }}",
-          //     method:"POST",
-          //     data:{
-          //       'param':customer,
-          //       '_token': "{{ csrf_token() }}"
-          //       },
-          //     success:function(data){
-          //       window.location.assign("{{url('/sales/show')}}")
-          //     }
-          //   });
-          // }
-          
-
-          // alert(stok - jumlah)
+    $(document).on('shown.bs.modal','#warning',function(){
+      $('#warning input[name="jmlcart"]').focus();
     })
     
-    $(document).bind('keydown', 'f2', function assets(){
-      $('#updatemodal').modal('show')
-      // $('.pay-btn').trigger('click')
-      var customer  = $('select[name="customer"]').val();
-      var total ="{{$grant}}";
-
-      $('#updatemodal input[name="bcustomer"]').val(customer);
-      $('#updatemodal input[name="btotal"]').val(total);
-      return false;
-    });
 
     $(document).on('click', '.btn-bayar', function(){
       $('#updatemodal').modal('show')
-      // $('.pay-btn').trigger('click')
+      
       var customer  = $('select[name="customer"]').val();
       var total ="{{$grant}}";
 
+      if(total == 0){
+        $('#updatemodal .pay-btn').prop('disabled',true)
+      }else{
+        $('#updatemodal .pay-btn').prop('disabled',false)
+      }
+      
       $('#updatemodal input[name="bcustomer"]').val(customer);
       $('#updatemodal input[name="btotal"]').val(total);
       return false;
     });
 
-    $(document).bind('keydown', 'f1', function assets(){
-      $('.btn-clear').trigger('click')
-      return false;
-    });
+    
 
     $(document).on('keyup','#updatemodal input[name="bbayar"]',function(){
       var bayar = $(this).val() ? $(this).val() : 0;

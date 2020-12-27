@@ -28,9 +28,9 @@ class OpnameController extends Controller
         $m = date('Y-m');
         
         $opname = OpnameModels::whereRaw("date_format(created_at, '%Y-%m') ='".$m."'")->with(['detail_opname','user_opname'])->get();
-        // return view('pages.transaksi.opname', compact('opname'));
+        return view('pages.transaksi.opname', compact('opname'));
 
-        dd($opname);
+        // dd($opname);
     }
 
     public function buat_opname($modul)
@@ -84,5 +84,13 @@ class OpnameController extends Controller
 
         // dd(Arr::exists($hapus, 'IN'));
         
+    }
+
+    public function detail_opname($id)
+    {
+        $opname = OpnameModels::where('id_opname',$id)->with(['detail_opname','user_opname'])->first();
+
+        return view('pages.report.app-opname', compact('opname'));
+        // dd($opname);
     }
 }

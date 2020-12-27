@@ -165,7 +165,9 @@
                                             <td>{{$item->tanggal_opname}}</td>
                                             <td>{{$item->jam_opname}}</td>
                                             <td>{{@$item->user_opname->name}}</td>
-                                            <td><a href="{{url('delete-opname/'.$item->id_opname)}}" type="button" class="btn btn-icon rounded-circle btn-danger mr-1 mb-1" ><i
+                                            <td><a href="{{url('detail-opname/'.$item->id_opname)}}" type="button" class="btn btn-icon rounded-circle btn-info mr-1 mb-1" ><i
+                                              class="bx 
+                                              bx-file"></i></a><a href="{{url('delete-opname/'.$item->id_opname)}}" type="button" class="btn btn-icon rounded-circle btn-danger mr-1 mb-1" ><i
                                                     class="bx bx-trash"></i></a></td>
                                         </tr>
                                     @endforeach

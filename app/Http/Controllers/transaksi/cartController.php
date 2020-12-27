@@ -81,17 +81,32 @@ class cartController extends Controller
                 break;
             case 'kasir':
                 
-                $item = ItemsModels::whereRaw("CONCAT(id_items,kategori_items,satuan_items) = '".$req->barcode."'")->first();
-                $cart = cartModels::where('uid',Auth::id())->where('inv_id','3')->where('item_id',$item->id_items)->where('status','ONCART')->first();
-                $update = [
-                    "item_id"=>$item->id_items,"nama"=>$item->nama_items,"jumlah"=>( $cart!= null ? $cart->jumlah : 0) + 1 ,"harga"=>$item->harga_items, "subtotal"=>(($cart != null ? $cart->jumlah : 0 ) + 1 ) * $item->harga_items
-                    ];
-                $where = [
-                    "uid"=>Auth::id(),"inv_id"=>3, "item_id"=>$item->id_items, "status"=>"ONCART"
-                    ];    
-                cartModels::updateOrCreate($where,$update);
-                $notif =["success"=>"Item berhasil di tambahkan"];
-                // dd($cart== null);
+                $item = ItemsModels::whereRaw("CONCAT(id_items,kategori_items,satuan_items) = '".$req->barcode."'")->with(['item_kategori','item_satuan','receive_items','issued_items'])->first();
+
+                if($item != null)
+                {   
+                    $in     = $item->receive_items->sum('receive_qty');
+                    $out    = $item->issued_items->sum('issued_qty');
+
+                    if($in - $out >= 0 ){
+                        $cart = cartModels::where('uid',Auth::id())->where('inv_id','3')->where('item_id',$item->id_items)->where('status','ONCART')->first();
+                        $update = [
+                            "item_id"=>$item->id_items,"nama"=>$item->nama_items,"jumlah"=>( $cart!= null ? $cart->jumlah : 0) + 1 ,"harga"=>$item->harga_items, "subtotal"=>(($cart != null ? $cart->jumlah : 0 ) + 1 ) * $item->harga_items
+                            ];
+                        $where = [
+                            "uid"=>Auth::id(),"inv_id"=>3, "item_id"=>$item->id_items, "status"=>"ONCART"
+                            ];    
+                        cartModels::updateOrCreate($where,$update);
+                        $notif =["success"=>"Item berhasil di tambahkan"];
+                    }else{
+                        $notif =["error"=>$item->nama_items. "Sisa Stok Telah Habis"];    
+                    }
+                    
+                }else{
+                    $notif =["error"=>"Item Tidak di temukan"];
+                }
+                
+                // dd($item == null);
                 return redirect()->back()->with($notif);
                 break;    
 
@@ -104,7 +119,7 @@ class cartController extends Controller
                         $rec = new IssuedModels;
 
                         $rec->tanggal_issued = date('Y-m-d');
-                        $rec->customer_id = $req->bcustomer;
+                        $rec->customer_id = $req->param;
                         $rec->jenis_id = 3;
                         $rec->save();
                         // $rec->id_receive;
@@ -320,6 +335,33 @@ class cartController extends Controller
         } catch (\Throwable $th) {
             $notif =["error"=>$th->getMessage()];
         }
+        return redirect()->back()->with($notif);
+    }
+
+    public function updateCart(Request $req, $modul)
+    {
+        $notif=[];
+        switch ($modul) {
+
+            case 'kasir':
+                // dd($req->all());
+                
+                
+                try {
+                    $ic     = cartModels::where('uid',Auth::id())->where('inv_id','3')->where('item_id',$req->kodecart)->where('status','ONCART')->first();
+                    $cart   = cartModels::where('uid',Auth::id())->where('inv_id','3')->where('item_id',$req->kodecart)->where('status','ONCART')->update(['jumlah'=>$req->jmlcart,'subtotal'=>($req->jmlcart * $ic->harga)]);                    
+                    $notif =["success"=>"Data Updated"];
+                } catch (\Throwable $th) {
+                    $notif =["error"=>$th->getMessage()];
+                }
+                
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
         return redirect()->back()->with($notif);
     }
 }

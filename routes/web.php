@@ -79,6 +79,7 @@ Route::get('/detail-receive/{id}', 'transaksi\ReceiveController@detailReceive');
 Route::post('/save-cart/{modul}', 'transaksi\cartController@saveCart');
 Route::get('/clear-cart/{modul}', 'transaksi\cartController@clearCart');
 Route::get('/delete-cart/{modul}', 'transaksi\cartController@deleteCart');
+Route::post('/update-cart/{modul}', 'transaksi\cartController@updateCart');
 
 
 //transaksi penjualan
@@ -92,6 +93,7 @@ Route::get('/detail-issued/{id}', 'transaksi\IssuedController@detailIssued');
 Route::get('/opname', 'transaksi\OpnameController@index');
 Route::get('/buat-opname/{modul}', 'transaksi\OpnameController@buat_opname');
 Route::get('/delete-opname/{id}', 'transaksi\OpnameController@delete_opname');
+Route::get('/detail-opname/{id}', 'transaksi\OpnameController@detail_opname');
 
 //Setting Toko
 Route::get('/setting', 'setting\SettingController@tokodata');
