@@ -145,6 +145,8 @@ return [
   "Reports"=>"Reports",
   "Report Penjualan"=>"Report Penjualan",
   "Report Pembelian"=>"Report Pembelian",
-  "Setting Toko"=>"Setting Toko"
+  "Setting Toko"=>"Setting Toko",
+  "Report Stok"=>"Report Stok",
+  "Master User"=>"Master User"
 ];
 ?>

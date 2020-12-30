@@ -208,7 +208,8 @@
               <div class="user-nav d-lg-flex d-none">
               <span class="user-name">{{Auth::user()->name}}</span><span class="user-status">Available</span>
               </div>
-              <span><img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"></span>
+              {{-- <span><img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"></span> --}}
+              <span><i class="bx bx-user-circle"></i></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right pb-0">
               {{-- <a class="dropdown-item" href="#"><i class="bx bx-user mr-50"></i> Edit Profile</a>

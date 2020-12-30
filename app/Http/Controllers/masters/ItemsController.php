@@ -57,9 +57,12 @@ class ItemsController extends Controller
             $im->nama_items     = $req->barang;
             $im->kategori_items = $req->kategori;
             $im->satuan_items   = $req->satuan;
-
-
+            
             $im->save();
+
+            ItemsModels::where('id_items', $im->id_items)
+            ->update(['barcode_code' => $im->id_items.$req->kategori.$req->satuan]);
+
             $notif =["success"=>"Data Inserted"];
         } catch (\Throwable $th) {
             $notif =["error"=>$th->getMessage()];
@@ -79,7 +82,7 @@ class ItemsController extends Controller
             $im->nama_items     = $req->barang;
             $im->kategori_items = $req->kategori;
             $im->satuan_items   = $req->satuan;
-            
+            $im->barcode_code   = $req->id.$req->kategori.$req->satuan;  
 
             $im->save();
             $notif =["success"=>"Data Updated"];

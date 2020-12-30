@@ -36,7 +36,7 @@
                     
                         <div class="form-body">
                           <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 hidden">
                               <div class="form-group">
                                 <label for="first-name-icon"></label>
                                 <div class="position-relative has-icon-left">
@@ -213,7 +213,7 @@
                                   <td>{{@$item->jumlah}}</td>  
                                   <td>{{number_format(@$item->harga,2)}}</td>  
                                   <td class="text-right">{{number_format(@$item->subtotal,2)}}</td>  
-                                  <td><a href="{{url('delete-cart/'.@$item->cart_id)}}" type="button" class="btn btn-xs btn-danger glow"><i class="bx bx-trash"></i></a></td>  
+                                  <td><button type="button" class="btn btn-xs btn-success glow mb-1 btn-injml" data-id="{{@$item->itemCart->id_items}}" data-jml="{{@$item->jumlah}}"><i class="bx bx-pen"></i></button><a href="{{url('delete-cart/'.@$item->cart_id)}}" type="button" class="btn btn-xs btn-danger glow"><i class="bx bx-trash"></i></a></td>  
                                 </tr>                                  
                               @endforeach
                             </tbody>
@@ -431,17 +431,10 @@
         "searching":false
     });
 
-    $('.buytab tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            buytab.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        var kode = $(this).find('td:eq(0)').html();
-        var jml = $(this).find('td:eq(3)').html();
+    $(document).on( 'click', 'button.btn-injml', function () {
         
+        var kode = $(this).data('id');
+        var jml = $(this).data('jml');
         
         $('#warning').modal('show');
 

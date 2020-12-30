@@ -81,7 +81,7 @@ class cartController extends Controller
                 break;
             case 'kasir':
                 
-                $item = ItemsModels::whereRaw("CONCAT(id_items,kategori_items,satuan_items) = '".$req->barcode."'")->with(['item_kategori','item_satuan','receive_items','issued_items'])->first();
+                $item = ItemsModels::whereRaw("barcode_code = '".$req->barcode."'")->with(['item_kategori','item_satuan','receive_items','issued_items'])->first();
 
                 if($item != null)
                 {   
@@ -167,7 +167,7 @@ class cartController extends Controller
                     $opname = new OpnameModels;
                     $opname->tanggal_opname= date('Y-m-d');
                     $opname->jam_opname= Carbon::now('Asia/Jakarta');
-                    $opname->user_opname = Auth::id();
+                    $opname->user_opname = Auth::user()->id;
                     $opname->save();
                     
                     $in_issued=[];

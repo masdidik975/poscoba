@@ -10,7 +10,7 @@ class ItemsModels extends Model
     use SoftDeletes;
 
     protected $table = 'tbl_item';
-    protected $fillable = ['nama_items','kategori_items','satuan_items','harga_items'];
+    protected $fillable = ['nama_items','kategori_items','satuan_items','harga_items','barcode_code'];
     protected $primaryKey = 'id_items';
 
     public function item_kategori()

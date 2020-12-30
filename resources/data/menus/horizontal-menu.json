@@ -44,6 +44,14 @@
           "icon": "bx bx-right-arrow-alt",
           "slug": "fixed-navbar"
         }
+        ,
+        {
+          "url": "/users",
+          "name": "Master User",
+          "i18n": "Fixed navbar",
+          "icon": "users",
+          "slug": "fixed-navbar"
+        }
       ]
     },
     {
@@ -93,6 +101,13 @@
         {
           "url": "/receive-report",
           "name": "Report Pembelian",
+          "i18n": "2 columns",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "2-columns"
+        },
+        {
+          "url": "/stok-report",
+          "name": "Report Stok",
           "i18n": "2 columns",
           "icon": "bx bx-right-arrow-alt",
           "slug": "2-columns"
