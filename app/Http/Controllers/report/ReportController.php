@@ -4,15 +4,12 @@ namespace App\Http\Controllers\report;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\models\transaksi\OpnameModels;
-use App\models\transaksi\OpnameDetailModels;
-use App\models\transaksi\ReceiveModels;
-use App\models\transaksi\ReceiveDetailModels;
-use App\models\transaksi\IssuedModels;
-use App\models\transaksi\IssuedDetailModels;
-use App\models\masters\ItemsModels;
-use Illuminate\Support\Arr;
 
+use App\models\masters\Stokview;
+use Illuminate\Support\Arr;
+use Carbon\Carbon;
+use Excel;
+use App\Excel\StokExcel;
 
 class ReportController extends Controller
 {
@@ -28,12 +25,14 @@ class ReportController extends Controller
 
     public function stok_generate(Request $req)
     {
-        $dari   = date('Y-m-d',strtotime($req->dari));
-        $sampai = date('Y-m-d',strtotime($req->sampai));
-
-        $item = ItemsModels::where('')with(['item_kategori','item_satuan','receive_items','issued_items'])->get();
+        $dari = Carbon::createFromFormat('d/m/Y', $req->dari)->format('Y-m-d');
+        $sampai = Carbon::createFromFormat('d/m/Y', $req->sampai)->format('Y-m-d');
 
         
-        dd($item);
+
+        return Excel::download(new StokExcel($dari, $sampai), date('YmdHis').'stok.xlsx');
+
+         
+
     }
 }
