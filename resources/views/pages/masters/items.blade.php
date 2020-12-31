@@ -207,6 +207,7 @@
                     <div class="heading-elements">
                         <button type="button" class="btn btn-icon rounded-circle btn-warning mr-1 mb-1" data-toggle="modal" data-target="#warning"><i
                             class="bx bx-list-plus"></i></button>
+                            <a href="{{url('/item-import')}}" type="button" class="btn btn-success glow mr-1 mb-1">Import Excel</a>    
                     </div>
                 </div>
                 <div class="card-content">

@@ -12,6 +12,11 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
 use App\models\transaksi\ReceiveDetailModels;
 
+use App\Jobs\ImportJob;
+use Excel;
+use App\Excel\EksportKategori;
+use App\Excel\EksportSatuan;
+
 class ItemsController extends Controller
 {
     public function __construct()
@@ -157,5 +162,41 @@ class ItemsController extends Controller
         }
         return redirect('/items/show')->with($notif);
         
+    }
+
+    public function importPage()
+    {
+
+        return view('pages.masters.importexcel');
+    }
+
+    public function importFile(Request $req)
+    {
+        $this->validate($req, [
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+    
+        if ($req->hasFile('file')) {
+            
+            $file = $req->file('file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs(
+                'public', $filename
+            );
+            
+            
+            ImportJob::dispatch($filename);
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
+
+    public function eksportKategori()
+    {
+        return Excel::download(new EksportKategori, time().'KategoriMaster.xlsx');
+    }
+    public function eksportSatuan()
+    {
+        return Excel::download(new EksportSatuan, time().'SatuanMaster.xlsx');
     }
 }

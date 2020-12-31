@@ -72,6 +72,30 @@ Route::group(['middleware' => ['role:Admin']], function () {
     
     Route::get('/price-items/{id}', 'masters\ItemsController@pagePrice');
     Route::post('/update-harga-items', 'masters\ItemsController@updatePrice');
+    
+
+    //excell
+    Route::get('/item-import', 'masters\ItemsController@importPage');
+    Route::post('/import-file', 'masters\ItemsController@importFile');
+    Route::get('/eksport-kategori', 'masters\ItemsController@eksportKategori');
+    Route::get('/eksport-satuan', 'masters\ItemsController@eksportSatuan');
+    Route::get('/download-master', function()
+    {
+        // Check if file exists in app/storage/file folder
+        $file_path = storage_path() .'/app/format/format item.xlsx';
+        if (file_exists($file_path))
+        {
+            // Send Download
+            return Response::download($file_path, 'master item.xlsx', [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    });
 
     //master kategori
     Route::get('/kategori', 'masters\mastersController@index');
@@ -111,9 +135,6 @@ Route::group(['middleware' => ['role:Purchase']], function () {
     Route::get('/delete-receive/{id}', 'transaksi\ReceiveController@deleteReceive');
     Route::get('/detail-receive/{id}', 'transaksi\ReceiveController@detailReceive');
 
-    
-    //report
-    Route::get('/stok-report', 'report\ReportController@stok_indek');
 
 });
 
@@ -124,13 +145,14 @@ Route::group(['middleware' => ['role:Kasir']], function () {
     Route::get('/delete-sales/{id}', 'transaksi\IssuedController@deleteSales');
     Route::get('/detail-issued/{id}', 'transaksi\IssuedController@detailIssued');
     
-    //report
-    Route::get('/stok-report', 'report\ReportController@stok_indek');
+    
 
 
 });
 
-Route::group(['middleware' => ['role:Manager']], function () {
-
+Route::group(['middleware' => ['role:Manager|Kasir|Purchase']], function () {
+    //report
+    Route::get('/stok-report', 'report\ReportController@stok_indek');
+    Route::post('/generate-stok', 'report\ReportController@stok_generate');
 });
 
