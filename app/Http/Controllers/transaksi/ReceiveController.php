@@ -11,6 +11,7 @@ use App\models\masters\ItemsModels;
 use App\models\masters\SupplierModels;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
 class ReceiveController extends Controller
 {
     public function __construct()
@@ -30,7 +31,9 @@ class ReceiveController extends Controller
                 break;
             
             default:
-                # code...
+                $dari = Carbon::createFromFormat('d/m/Y', $req->dari)->format('Y-m-d');
+                $sampai = Carbon::createFromFormat('d/m/Y', $req->sampai)->format('Y-m-d');
+                $receive = ReceiveModels::whereBetween('tanggal',[$dari,$sampai])->with(['detail_receive','supplier_receive','jenis_receive'])->get();
                 break;
         }
         // $supplier = SupplierModels::all();

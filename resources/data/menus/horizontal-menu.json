@@ -76,7 +76,7 @@
           "slug": "2-columns"
         },
         {
-          "url": "/opname",
+          "url": "/opname/show",
           "name": "Stok Opname",
           "i18n": "Fixed navbar",
           "icon": "bx bx-right-arrow-alt",

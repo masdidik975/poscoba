@@ -15,7 +15,7 @@ use App\models\transaksi\ReceiveDetailModels;
 use App\models\transaksi\IssuedModels;
 use App\models\transaksi\IssuedDetailModels;
 use Illuminate\Support\Arr;
-
+use Carbon\Carbon;
 class OpnameController extends Controller
 {
     public function __construct()
@@ -23,11 +23,20 @@ class OpnameController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $req, $modul)
     {
-        $m = date('Y-m');
-        
-        $opname = OpnameModels::whereRaw("date_format(created_at, '%Y-%m') ='".$m."'")->with(['detail_opname','user_opname'])->get();
+        switch ($modul) {
+            case 'show':
+            $m = date('Y-m');
+            $opname = OpnameModels::whereRaw("date_format(created_at, '%Y-%m') ='".$m."'")->with(['detail_opname','user_opname'])->get();
+            break;
+        default:
+                $dari   = Carbon::createFromFormat('d/m/Y', $req->dari)->format('Y-m-d');
+                $sampai = Carbon::createFromFormat('d/m/Y', $req->sampai)->format('Y-m-d');
+                $opname = OpnameModels::whereBetween('tanggal_opname',[$dari,$sampai])->with(['detail_opname','user_opname'])->get();
+                
+                break;
+        }
         return view('pages.transaksi.opname', compact('opname'));
 
         // dd($opname);

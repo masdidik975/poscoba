@@ -141,9 +141,32 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                        {{-- <p class="card-text">DataTables has most features enabled by default, so all you need to do to
-                            use it with your own tables is to call the construction function: $().DataTable();.</p> --}}
-                        
+                      <form action="{{url('opname/filter')}}" method="GET">
+                        @csrf
+                        <div class="form-body">
+                          <div class="row">
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label for="first-name-vertical">Dari</label>
+                                <input type="text" id="first-name-vertical" class="form-control" name="dari" required data-inputmask-alias="date" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask-placeholder="__/__/____"
+                                  placeholder="Periode dari">
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label for="first-name-vertical">Sampai</label>
+                                <input type="text" id="first-name-vertical" class="form-control" name="sampai" required data-inputmask-alias="date" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask-placeholder="__/__/____"
+                                  placeholder="Periode Sampai">
+                              </div>
+                            </div>
+                            
+                            <div class="col-md-4 col-12">
+                              <button type="submit" class="btn btn-success glow mt-2">Cari</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <hr>
                             
                         <div class="table-responsive">
                             <table class="table zero-configuration">
@@ -208,7 +231,10 @@
 {{-- page scripts --}}
 @section('page-scripts')
 <script src="{{asset('js/scripts/datatables/datatable.js')}}"></script>
+<script src="{{asset('js/scripts/inputmask.js')}}"></script>
 <script>
+  $("input[name='dari']").inputmask();
+    $("input[name='sampai']").inputmask();
     @if(count($errors) > 0)
         @foreach($errors->all() as $error)
             toastr.error("{{ $error }}");

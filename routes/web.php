@@ -124,7 +124,7 @@ Route::group(['middleware' => ['role:Admin']], function () {
 
 Route::group(['middleware' => ['role:Purchase']], function () {
     //transaksi opname
-    Route::get('/opname', 'transaksi\OpnameController@index');
+    Route::get('/opname/{modul}', 'transaksi\OpnameController@index');
     Route::get('/buat-opname/{modul}', 'transaksi\OpnameController@buat_opname');
     Route::get('/delete-opname/{id}', 'transaksi\OpnameController@delete_opname');
     Route::get('/detail-opname/{id}', 'transaksi\OpnameController@detail_opname');
@@ -155,5 +155,9 @@ Route::group(['middleware' => ['role:Manager|Kasir|Purchase']], function () {
     //report
     Route::get('/stok-report', 'report\ReportController@stok_indek');
     Route::post('/generate-stok', 'report\ReportController@stok_generate');
+    Route::get('/sales-report', 'report\ReportController@sales_indek');
+    Route::post('/generate-sales', 'report\ReportController@sales_generate');
+    Route::get('/receive-report', 'report\ReportController@receive_indek');
+    Route::post('/generate-receive', 'report\ReportController@receive_generate');
 });
 

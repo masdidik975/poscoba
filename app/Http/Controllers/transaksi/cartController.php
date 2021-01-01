@@ -263,7 +263,7 @@ class cartController extends Controller
                 }
 
 
-                return redirect('/opname')->with($notif);
+                return redirect('/opname/show')->with($notif);
                     
                 break;      
             default:
