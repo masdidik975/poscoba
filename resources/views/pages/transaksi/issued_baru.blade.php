@@ -257,6 +257,22 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="first-name-icon">Pembayaran</label>
+                              <div class="position-relative has-icon-left">
+                                <select class="form-control" name="pembayaran">
+                                  <option value="Cash">Cash</option>      
+                                  <option value="Kredit">Kredit</option>      
+                                </select>
+                                <div class="form-control-position">
+                                  <i class="bx bxs-wallet-alt"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </form>
                     
@@ -480,7 +496,8 @@
     })
 
     $(document).on('click','.pay-btn',function(){
-     
+      
+      var pembayaran  = $('select[name="pembayaran"]').val();
       var cart = buytab.rows().data();
       console.log(cart)
       console.log(cart.length)
@@ -503,7 +520,7 @@
         .align('left')
         .text('Kasir      : {{Auth::user()->name}}')
         .text("Tanggal    : {{Carbon\Carbon::now('Asia/Jakarta')}}")
-        .text('Pembayaran : Cash')
+        .text('Pembayaran : '+pembayaran)
         .feed(1)
         .text("{{str_repeat('-', 32)}}")
         
@@ -555,12 +572,14 @@
 
     function save_cart()
     {
+      var pembayaran  = $('select[name="pembayaran"]').val();
       var customer  = $('select[name="customer"]').val();
       $.ajax({
           url:"{{ url('/save-cart/kasir-save') }}",
           method:"POST",
           data:{
             'param':customer,
+            'pay':pembayaran,
             '_token': "{{ csrf_token() }}"
             },
           success:function(data){

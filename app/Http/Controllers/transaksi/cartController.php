@@ -120,6 +120,7 @@ class cartController extends Controller
 
                         $rec->tanggal_issued = date('Y-m-d');
                         $rec->customer_id = $req->param;
+                        $rec->pembayaran = $req->pay;
                         $rec->jenis_id = 3;
                         $rec->save();
                         // $rec->id_receive;

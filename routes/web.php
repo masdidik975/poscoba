@@ -144,6 +144,7 @@ Route::group(['middleware' => ['role:Kasir']], function () {
     Route::get('/buat-sales/{modul}', 'transaksi\IssuedController@buat_sales');
     Route::get('/delete-sales/{id}', 'transaksi\IssuedController@deleteSales');
     Route::get('/detail-issued/{id}', 'transaksi\IssuedController@detailIssued');
+    Route::get('/lunasi-sales/{id}', 'transaksi\IssuedController@lunasiSales');
     
     
 

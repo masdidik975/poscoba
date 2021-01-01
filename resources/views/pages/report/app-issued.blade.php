@@ -140,7 +140,7 @@
               <div class="col-4 col-sm-6 mt-75">
                 {{-- <p>Thanks for your business.</p> --}}
                 <div class="rubber">
-                  LUNAS
+                  {{@$ih->pembayaran}}
                 </div>
               </div>
               <div class="col-8 col-sm-6 d-flex justify-content-end mt-75">

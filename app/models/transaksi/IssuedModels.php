@@ -10,7 +10,7 @@ class IssuedModels extends Model
     use SoftDeletes;
 
     protected $table = 'tbl_item_out';
-    protected $fillable = ['tanggal_issued','jam_issued','customer_id','jenis_id'];
+    protected $fillable = ['tanggal_issued','jam_issued','customer_id','jenis_id','pembayaran'];
     protected $primaryKey = 'id_issued';
 
     public function detail_issued()

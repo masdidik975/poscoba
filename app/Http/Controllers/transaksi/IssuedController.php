@@ -14,6 +14,7 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Carbon\Carbon;
 
 class IssuedController extends Controller
 {
@@ -34,7 +35,13 @@ class IssuedController extends Controller
                 break;
             
             default:
-                # code...
+                $dari = Carbon::createFromFormat('d/m/Y', $req->dari)->format('Y-m-d');
+                $sampai = Carbon::createFromFormat('d/m/Y', $req->sampai)->format('Y-m-d');
+                if($req->pembayaran == "All"){
+                    $issued = IssuedModels::whereBetween('tanggal_issued',[$dari,$sampai])->with(['detail_issued'])->get();
+                }else{
+                    $issued = IssuedModels::whereBetween('tanggal_issued',[$dari,$sampai])->where('pembayaran',$req->pembayaran)->with(['detail_issued'])->get();
+                }
                 break;
         }
         // $supplier = SupplierModels::all();
@@ -59,6 +66,24 @@ class IssuedController extends Controller
                 # code...
                 break;
         }
+    }
+
+    
+    public function lunasiSales($id)
+    {
+
+        $notif=[];
+        try {
+            
+            $rec = IssuedModels::where('id_issued',$id)->update(['pembayaran'=>"Cash"]);
+            
+            
+            $notif =["success"=>"Transaksi Dilunasi Terimakasih"];
+        } catch (\Throwable $th) {
+            $notif =["error"=>$th->getMessage()];
+        }
+        return redirect()->back()->with($notif);
+        
     }
 
     public function deleteSales($id)
